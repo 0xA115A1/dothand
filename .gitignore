@@ -7,3 +7,6 @@ settings.json
 charset.txt
 raw.png
 raw.png.kra
+
+node_modules
+.vite
