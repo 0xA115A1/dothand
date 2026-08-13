@@ -185,10 +185,10 @@ export function init() {
     elements.button_download_otf.addEventListener("click", () => {
         let fd = font_data();
         let buffer = convert.generate_truetype(fd).toArrayBuffer();
-        let url = window.URL.createObjectURL(new Blob([buffer], {type: 'application/x-font-ttf'}));
+        let url = window.URL.createObjectURL(new Blob([buffer], {type: 'application/x-font-otf'}));
         let a = document.createElement("a");
         a.href = url;
-        a.download = `${fd.name.replace(/[^a-zA-Z0-9]/g, "")}-${fd.style.replace(/[^a-zA-Z0-9]/g, "")}.ttf`;
+        a.download = `${fd.name.replace(/[^a-zA-Z0-9]/g, "")}-${fd.style.replace(/[^a-zA-Z0-9]/g, "")}.otf`;
         a.click();
     });
 
