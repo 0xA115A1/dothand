@@ -44,3 +44,17 @@
     margin-right: 0.2em;
     line-height: 1.9em;
 }
+
+.glyphbar{
+    color: #202020;
+    width: 100%;
+    flex-wrap: wrap;
+    font-size: 10pt;
+    min-height: 1.9em;
+    font-family: monospace;
+
+    display: flex;
+    flex-direction: row;
+    padding-left: 0.3em;
+    flex-shrink: 0;
+}

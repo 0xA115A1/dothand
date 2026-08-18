@@ -1,0 +1,10 @@
+export const COLOR_PRIMARY_DARK = "#5E0B15";
+export const COLOR_PRIMARY_LIGHT = "#90323D";
+export const COLOR_ALT_DARK = "#BC8034";
+export const COLOR_ALT_LIGHT = "#CBA574";
+export const COLOR_GRAY_LIGHT = "#C5C9C7";
+export const COLOR_GRAY_MEDIUM = "#A0989F";
+export const COLOR_GRAY_DARK = "#7A6677";
+export const COLOR_BLACK = "#101010";
+export const COLOR_WHITE = "#f0f0f0";
+export const COLOR_LIGHT_BLUE = "#e8e8f4";

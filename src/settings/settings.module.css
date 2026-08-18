@@ -2,18 +2,29 @@
     font-size: 12pt;
 }
 
-.settings h2 {
+.settings h2,h3 {
     margin: 0.5em 0;
     font-size: inherit;
 }
 
+.settings h3{
+    font-style: oblique;
+}
 .flex {
     display: flex;
     flex-direction: row;
-    gap: 1em;
+    gap: 0.5em;
     row-gap: 0.25em;
-    flex-wrap: wrap;
-    /* justify-content: space-between; */
+    flex-wrap: wrap;/* 
+    justify-content: space-between;  */
+    align-items: baseline;
+}
+
+
+.flexcol{
+    display: flex;
+    flex-direction:column;
+    align-items:center;
 }
 
 /* TODO: properly style file input */

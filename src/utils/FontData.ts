@@ -79,7 +79,7 @@ export class Glyph {
         return result;
     }
 
-    resizeToFit(corner: Corner, horizontal: boolean, vertical: boolean): Glyph {
+    resizeToFit(corner: Corner = Corner, horizontal: boolean, vertical: boolean): Glyph {
         let minX = this.width - 1;
         let maxX = 0;
         let minY = this.height - 1;
@@ -100,6 +100,69 @@ export class Glyph {
         const height = corner === Corner.TOP_LEFT || corner === Corner.TOP_RIGHT ? this.height - minY + 1 : maxY + 1;
 
         return this.resize(horizontal ? width : this.width, vertical ? height : this.height, corner);
+    }
+
+    move(xOffset: number = 0, yOffset: number = 0): Glyph {
+        const result = new Glyph(this.width, this.height, this.baseline, this.leftOffset);
+        for (let y = 0; y < this.height; y++) {
+            for (let x = 0; x < this.width; x++) {
+                if (this.get(x, y)) {
+                    result.set(x + xOffset, y + yOffset, true);
+                }
+            }
+        }
+        return result;
+    }
+
+    /* Glyph centering along X axis
+    for making monotype fonts */
+    center(): Glyph {
+        let startX = 0;
+        let endX = this.width;
+        for (let x = 0; x < this.width; x++) {
+            let hasPixels = false;
+            for (let y = 0; y < this.height; y++) {
+                if (this.get(x, y)) {
+                    hasPixels = true;
+                    break;
+                }
+            }
+            if (hasPixels) {
+                startX = x;
+                break;
+            }
+        }
+
+        for (let x = this.width - 1; x >= startX; x--) {
+            let hasPixels = false;
+            for (let y = 0; y < this.height; y++) {
+                if (this.get(x, y)) {
+                    hasPixels = true;
+                    break;
+                }
+            }
+            if (hasPixels) {
+                endX = x;
+                break;
+            }
+        }
+        const realWidth = endX - startX;
+        let offset = Math.floor((this.width - realWidth) / 2) - startX;
+        return this.move(offset, 0);
+    }
+    /* simple mirroring  */
+    mirror(byX = true, byY = false): Glyph {
+        const result = new Glyph(this.width, this.height, this.baseline, this.leftOffset);
+
+        for (let x = 0; x < this.width; x++) {
+            for (let y = 0; y < this.height; y++) {
+                let pixel = this.get(x, y)
+                let newX = byX ? this.width - x - 1 : x;
+                let newY = byY ? this.height - y - 1 : y;
+                result.set(newX, newY, pixel)
+            }
+        }
+        return result
     }
 }
 

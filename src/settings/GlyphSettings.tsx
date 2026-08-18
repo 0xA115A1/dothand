@@ -92,16 +92,6 @@ export default function GlyphSettings(props: GlyphSettingsProps) {
             >
                 Resize glyph
             </Button>
-            <Button
-                theme="settings"
-                onClick={() => {
-                    const glyph = props.currentGlyph().resizeToFit(corner(), true, false);
-
-                    props.setCurrentGlyph(glyph);
-                }}
-            >
-                Resize to fit
-            </Button>
         </div>
 
         <h2>Glyph metrics</h2>
@@ -128,6 +118,41 @@ export default function GlyphSettings(props: GlyphSettingsProps) {
                     props.setCurrentGlyph(props.currentGlyph().setLeftOffset(leftOffset));
                 }}
             />
+        </div>
+        
+        <h2>Operations</h2>
+        <div class={classes.flex}>
+            <Button
+                theme="settings"
+                onClick={() => {
+                    const glyph = props.currentGlyph().resizeToFit(corner(), true, false);
+
+                    props.setCurrentGlyph(glyph);
+                }}
+            >
+                Resize to fit
+            </Button>
+            <Button
+                theme="settings"
+                onClick={() => {
+                    const glyph = props.currentGlyph().center();
+
+                    props.setCurrentGlyph(glyph);
+                }}
+            >
+                Center
+            </Button>
+            <Button
+                theme="settings"
+                onClick={() => {
+                    const glyph = props.currentGlyph().mirror();
+
+                    props.setCurrentGlyph(glyph);
+                }}
+            >
+                Mirror
+            </Button>
+            
         </div>
     </article>);
 }

@@ -3,18 +3,19 @@ import { appSettings } from "../settings/AppSettings.jsx";
 import { UTF16FromCharCode } from "../utils.js";
 import { FontData, Glyph } from "../utils/FontData.js";
 import { AffineTransformation } from "./drawArea.js";
+import {
+    COLOR_PRIMARY_DARK,
+    COLOR_PRIMARY_LIGHT,
+    COLOR_ALT_DARK,
+    COLOR_ALT_LIGHT,
+    COLOR_GRAY_LIGHT,
+    COLOR_GRAY_MEDIUM,
+    COLOR_GRAY_DARK,
+    COLOR_BLACK,
+    COLOR_WHITE,
+    COLOR_LIGHT_BLUE
+} from "../common/colors.js";
 
-
-const COLOR_PRIMARY_DARK = "#5E0B15";
-const COLOR_PRIMARY_LIGHT = "#90323D";
-const COLOR_ALT_DARK = "#BC8034";
-const COLOR_ALT_LIGHT = "#CBA574";
-const COLOR_GRAY_LIGHT = "#C5C9C7";
-const COLOR_GRAY_MEDIUM = "#A0989F";
-const COLOR_GRAY_DARK = "#7A6677";
-const COLOR_BLACK = "#101010";
-const COLOR_WHITE = "#f0f0f0";
-const COLOR_LIGHT_BLUE = "#e8e8f4";
 
 const COLOR_BG = COLOR_GRAY_MEDIUM;
 const COLOR_BG_ALT = "#8b7f84";
