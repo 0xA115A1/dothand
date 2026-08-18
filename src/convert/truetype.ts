@@ -18,6 +18,7 @@ function generatePath(
     glyph: Required<Pick<Glyph, 'width' | 'height' | 'baseline' | 'leftOffset'>>,
     path: Path
 ) {
+
     const corners: [
         x: number,
         y: number,
@@ -157,7 +158,7 @@ function generatePath(
 // Von neumann neighborhood
 const VN_NEIGHBORHOOD = [[-1, 0], [0, -1], [1, 0], [0, 1]] as const;
 
-export function generateTruetype(fontData: FontData, unicodeData: Map<number, string>): OTFont {
+export function toTruetype(fontData: FontData, unicodeData: Map<number, string>): OTFont {
     let notdef_glyph = new OTGlyph({
         name: ".notdef",
         unicode: 0,
@@ -204,9 +205,9 @@ export function generateTruetype(fontData: FontData, unicodeData: Map<number, st
             glyphs.push(new OTGlyph({
                 name,
                 unicode: id,
-                advanceWidth: PIXEL_SIZE * (glyph.width + fontData.spacing - leftOffset),
+                advanceWidth: Math.max(PIXEL_SIZE, PIXEL_SIZE * (glyph.width + fontData.spacing - leftOffset)),
                 path,
-                leftSideBearing: Math.min(xMin - leftOffset, 0) * PIXEL_SIZE,
+                leftSideBearing: (xMin - leftOffset) * PIXEL_SIZE,
                 // Looks like opentype.js discards this information anyway, so it might not be that useful to compute it
                 xMin: (xMin - leftOffset) * PIXEL_SIZE,
                 xMax: (xMax - leftOffset) * PIXEL_SIZE,
@@ -231,7 +232,23 @@ export function generateTruetype(fontData: FontData, unicodeData: Map<number, st
         }));
     }
 
-    return new OTFont({
+
+
+    let metadata = {
+        name: fontData.name,
+        author: fontData.author,
+        style: fontData.style,
+        descend: fontData.descend,
+        ascend: fontData.ascend,
+        width: fontData.width,
+        height: fontData.height,
+        baseline: fontData.baseline,
+        spacing: fontData.spacing,
+        emSize: fontData.emSize,
+        leftOffset: fontData.leftOffset,
+    }
+
+    let newFont = new OTFont({
         familyName: fontData.name,
         styleName: fontData.style || "Medium",
         unitsPerEm: PIXEL_SIZE * fontData.emSize,
@@ -239,4 +256,78 @@ export function generateTruetype(fontData: FontData, unicodeData: Map<number, st
         descender: PIXEL_SIZE * fontData.descend,
         glyphs,
     });
+    
+    newFont.metas = newFont.metas || {};
+    newFont.metas.OPFC = JSON.stringify(metadata);
+
+    console.log(newFont.metas.OPFC);
+    return newFont;
+}
+
+
+export function fromTruetype(font: OTFont) {
+    if (!font.supported) {
+        throw new Error("Font is not supported!");
+    }
+
+    let metadata = JSON.parse(font.metas.OPFC);
+
+
+    let name = metadata.name;
+    let author = metadata.author;
+    let style = metadata.style;
+
+    let width = parseInt(metadata.width);
+    let height = parseInt(metadata.height);
+    let emSize = parseInt(metadata.emSize);
+    let baseline = parseInt(metadata.baseline);
+    let leftOffset = parseInt(metadata.leftOffset);
+
+    let spacing = parseInt(metadata.spacing);
+    let ascend = parseInt(metadata.ascend);
+    let descend = parseInt(metadata.descend);
+
+    console.log(font.metas.OPFC);
+
+    let canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    let ctx = canvas.getContext("2d");
+    let glyphs = new Map();
+    for (let glyph of Object.values(font.glyphs.glyphs)) {
+        let id = glyph.unicode;
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = "black";
+        glyph.draw(ctx, leftOffset, baseline, emSize);
+
+        let data = ctx.getImageData(0, 0, width, height).data;
+        let table = new Glyph(width, height, baseline, leftOffset);
+
+        for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+                table.set(x, y, data[(x + y * width) * 4 + 3] > 128); // Read from alpha channel
+            }
+        }
+
+        glyphs.set(id, table);
+    }
+
+    return {
+        name: name || "",
+        author: author || "",
+        style: style || "",
+
+        width,
+        height,
+        baseline,
+        emSize,
+        leftOffset,
+
+        ascend: font.ascender / font.unitsPerEm * emSize,
+        descend: font.descender / font.unitsPerEm * emSize,
+        spacing,
+
+        glyphs,
+        history: [],
+    };
 }

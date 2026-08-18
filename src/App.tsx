@@ -1,7 +1,7 @@
 import { createMemo, createResource, createSignal } from "solid-js";
 import { createStore, SetStoreFunction } from "solid-js/store";
 import classes from "./App.module.css";
-import { loadFont } from "./convert/save.js";
+import { loadFont } from "./convert/localSave.js";
 import Editor from "./Editor/index.jsx";
 import Listeners from "./Listeners.jsx";
 import Tabbed from "./molecules/Tabbed.jsx";

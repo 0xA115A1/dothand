@@ -1,0 +1,63 @@
+import { FontData, Glyph } from "../utils/FontData.js";
+import opentype, { Path, Glyph as OTGlyph, Font as OTFont } from "opentype.js";
+import { deserializeFont, serializeFont } from "./serialize.js";
+import { fromTruetype, toTruetype } from "./truetype.js";
+import UnicodeData from "../utils/UnicodeData.jsx";
+import { SetStoreFunction } from "solid-js/store";
+
+/* Helper function, just downloads the file with set type and name */
+export function download(data: string | ArrayBuffer | any, type: string, name: string) {
+    const url = window.URL.createObjectURL(new Blob([data], { type: type }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = name;
+    a.click();
+}
+
+export function downloadPFS(data: FontData): void {
+    let fd = serializeFont(data);
+    let type = "text/plain";
+    let name = `${data.name.replace(/[^a-zA-Z0-9]/g, "")}-${data.style.replace(/[^a-zA-Z0-9]/g, "")}.pfs`;
+    download(fd, type, name)
+}
+
+export function downloadTrueType(data: FontData, unicodeDAta: Map<number, string>): void {
+    let fd = toTruetype(data, unicodeDAta).toArrayBuffer()
+    let type = "font/opentype";
+    let name = `${data.name.replace(/[^a-zA-Z0-9]/g, "")}-${data.style.replace(/[^a-zA-Z0-9]/g, "")}.otf`;
+    download(fd, type, name)
+}
+
+export async function upload(file: File) {
+
+    function uploadPFS(file: File): Promise<FontData> {
+        return new Promise<FontData>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(deserializeFont(reader.result));
+            reader.onerror = reject;
+            reader.readAsText(file);
+        });
+    }
+
+    function uploadTrueType(file: File): Promise<FontData> {
+        return new Promise<FontData>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(fromTruetype(opentype.parse(reader.result)));
+            reader.onerror = reject;
+            reader.readAsArrayBuffer(file);
+        });
+    }
+
+
+    let fileExtension = file.name.split('.').pop().toLowerCase();
+    console.log(`Uploading file: ${file.name} with extension: ${fileExtension}`);
+    switch (fileExtension) {
+        case "pfs":
+            return await uploadPFS(file);
+        case "otf":
+        case "ttf":
+            return await uploadTrueType(file);
+        default:
+            console.error("Unsupported file type");
+    }
+}

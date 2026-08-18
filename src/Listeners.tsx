@@ -1,7 +1,7 @@
 import { Accessor, onCleanup, Setter } from "solid-js";
 import { SetStoreFunction } from "solid-js/store";
 import { FontData } from "./utils/FontData.js";
-import { saveFont } from "./convert/save.js";
+import { saveFont } from "./convert/localSave.js";
 
 export type ListenersProps = {
     fontData: FontData,

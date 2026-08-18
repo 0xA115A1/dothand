@@ -1,28 +1,51 @@
 import { Accessor } from "solid-js";
 import { SetStoreFunction } from "solid-js/store";
 import Button from "../atoms/Button.jsx";
-import { generateTruetype } from "../convert/generateTruetype.js";
 import { FontData } from "../utils/FontData.js";
-import { clearSave, loadFont, saveFont, saveStatus } from "../convert/save.js";
+import { clearSave, loadFont, saveFont, saveStatus } from "../convert/localSave.js";
 import UnicodeData, { useUnicodeData } from "../utils/UnicodeData.jsx";
 import FontName from "./FontName.jsx";
 import classes from "./settings.module.css";
-import { downloadFont } from "../convert/serialize.js";
+import { downloadTrueType, downloadPFS, upload } from "../convert/fileIO.js";
 
 export type IOSettingsProps = {
     currentFont: FontData,
     setCurrentFont: SetStoreFunction<FontData>,
 };
 
+/* TODO: Support for choosing a font format
+out of supported by opentype.js with a dropdown */
 function DownloadButton(props: Pick<IOSettingsProps, 'currentFont'>) {
     const unicodeData = useUnicodeData();
 
     return <Button
         theme="settings"
         onClick={() => {
-            generateTruetype(props.currentFont, unicodeData).download();
+            downloadTrueType(props.currentFont, unicodeData);
         }}
     >Download OTF</Button>
+}
+
+function ImportForm(props: Pick<IOSettingsProps, 'setCurrentFont'>) {
+    const unicodeData = useUnicodeData();
+
+    return <form class={classes.flex} onSubmit={(e) => {
+        e.preventDefault();
+        const file = e.currentTarget.querySelector('input[type="file"]')?.files?.[0];
+        if (!file) return;
+
+        upload(file)
+            .then(font => {
+                if (font) props.setCurrentFont(font);
+            })
+            .catch(err => console.error('Upload failed:', err));
+    }}>
+        <input type='file' accept='.pfs,.otf,.ttf' />
+        <Button
+            theme="settings"
+            type="submit"
+        >Upload</Button>
+    </form>
 }
 
 export default function IOSettings(props: IOSettingsProps) {
@@ -64,12 +87,16 @@ export default function IOSettings(props: IOSettingsProps) {
             <Button
                 theme="settings"
                 onClick={() => {
-                    downloadFont(props.currentFont);
+                    downloadPFS(props.currentFont);
                 }}
             >Download</Button>
             <UnicodeData fallback={<i class={classes.info}>Loading unicode data...</i>}>
                 <DownloadButton currentFont={props.currentFont} />
             </UnicodeData>
+        </div>
+        <h2>Import</h2>
+        <div class={classes.flex}>
+            <ImportForm setCurrentFont={props.setCurrentFont} />
         </div>
     </article>);
 }

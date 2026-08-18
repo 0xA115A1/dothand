@@ -15,3 +15,27 @@
     flex-wrap: wrap;
     /* justify-content: space-between; */
 }
+
+/* TODO: properly style file input */
+.settings input[type="file"] {
+    all: unset;
+    font-size: inherit;
+    color: inherit;
+    font-family: inherit;
+    height: 1.7em;
+    line-height: 1.3em;
+    box-sizing: border-box;
+    padding: 0.2em 0.4em;
+    margin: 0.1em 0.2em;
+    border-radius: 1px;
+
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+
+    display: block;
+    box-shadow: 0px -1px 4px -2px transparent;
+    border: 1px solid #D9CAB3;
+    background-color: transparent;
+    transition: background-color 0.2s, box-shadow 0.2s, border 0.2s, color 0.2s;
+}
