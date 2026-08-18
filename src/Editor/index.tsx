@@ -11,6 +11,7 @@ import classes from "./style.module.css";
 import EditorToolbar from "./toolbar.jsx";
 import { EditorOperation, EditorTool } from "./types.js";
 import { appSettings } from "../settings/AppSettings.jsx";
+import Glyphbar from "./glyphbar.jsx";
 
 export type EditorProps = {
     fontData: FontData,
@@ -323,6 +324,11 @@ export default function Editor(props: EditorProps) {
                 />
             </PixelPerfectTouch>
         </div>
+        <Glyphbar
+            fontData={props.fontData}
+            currentGlyphIndex={currentGlyphIndex}
+            setCurrentGlyphIndex={setCurrentGlyphIndex}
+        />
         <EditorToolbar
             operation={operation}
             setOperation={setOperation}

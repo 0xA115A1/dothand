@@ -152,6 +152,18 @@ export default function GlyphSettings(props: GlyphSettingsProps) {
             >
                 Mirror
             </Button>
+
+            <Button
+                theme="settings"
+                onClick={() => {
+                    const glyph = props.currentGlyph().invert();
+
+                    props.setCurrentGlyph(glyph);
+                }}
+            >
+                Invert
+
+            </Button>
             
         </div>
     </article>);

@@ -101,7 +101,8 @@ export class Glyph {
 
         return this.resize(horizontal ? width : this.width, vertical ? height : this.height, corner);
     }
-
+    /* Basic move helper, returns a new glyph
+        offset by respective x and y values. */
     move(xOffset: number = 0, yOffset: number = 0): Glyph {
         const result = new Glyph(this.width, this.height, this.baseline, this.leftOffset);
         for (let y = 0; y < this.height; y++) {
@@ -115,7 +116,11 @@ export class Glyph {
     }
 
     /* Glyph centering along X axis
-    for making monotype fonts */
+    for making monotype fonts 
+    just checks for first and last column
+    which have at least one pixel to determine glyph width
+    and calculates an offset as
+    starting column + half of the glyph width */
     center(): Glyph {
         let startX = 0;
         let endX = this.width;
@@ -150,7 +155,7 @@ export class Glyph {
         let offset = Math.floor((this.width - realWidth) / 2) - startX;
         return this.move(offset, 0);
     }
-    /* simple mirroring  */
+    /* Simple mirroring  */
     mirror(byX = true, byY = false): Glyph {
         const result = new Glyph(this.width, this.height, this.baseline, this.leftOffset);
 
@@ -160,6 +165,17 @@ export class Glyph {
                 let newX = byX ? this.width - x - 1 : x;
                 let newY = byY ? this.height - y - 1 : y;
                 result.set(newX, newY, pixel)
+            }
+        }
+        return result
+    }
+    /*Inverts all characters of the glyph */
+    invert(): Glyph {
+        const result = new Glyph(this.width, this.height, this.baseline, this.leftOffset);
+
+        for (let x = 0; x < this.width; x++) {
+            for (let y = 0; y < this.height; y++) {
+                result.set(x, y, !this.get(x,y))
             }
         }
         return result
