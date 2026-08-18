@@ -79,7 +79,7 @@ export class Glyph {
         return result;
     }
 
-    resizeToFit(corner: Corner = Corner, horizontal: boolean, vertical: boolean): Glyph {
+    resizeToFit(corner: Corner, horizontal: boolean, vertical: boolean): Glyph {
         let minX = this.width - 1;
         let maxX = 0;
         let minY = this.height - 1;

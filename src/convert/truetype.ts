@@ -1,6 +1,18 @@
 import { Path, Glyph as OTGlyph, Font as OTFont } from "opentype.js";
 import { FontData, Glyph } from "../utils/FontData.js";
 
+/* Patch of opentype.js Font interface 
+as in https://github.com/opentypejs/opentype.js/discussions/620
+otf is capable of storing custom metadata in meta(s) table
+while it's not reflected in the corresponding library interfaces
+it is still able to properly input and output it,
+which is quite useful for our use-case*/
+declare module "opentype.js" {
+    interface Font {
+        metas?: Record<string, string>;
+    }
+}
+
 export const PIXEL_SIZE = 128;
 
 // Note: glyphs are wound in the clockwise order for positive areas,
@@ -270,6 +282,10 @@ export function fromTruetype(font: OTFont) {
         throw new Error("Font is not supported!");
     }
 
+    if (!font.metas || !font.metas.OPFC) {
+        throw new Error("Font is missing OPFC metadata!");
+    }
+
     let metadata = JSON.parse(font.metas.OPFC);
 
 
@@ -293,8 +309,14 @@ export function fromTruetype(font: OTFont) {
     canvas.width = width;
     canvas.height = height;
     let ctx = canvas.getContext("2d");
+    
+    if (!ctx) {
+        throw new Error("Failed to get canvas context");
+    }
     let glyphs = new Map();
-    for (let glyph of Object.values(font.glyphs.glyphs)) {
+
+    for( let index=0; index<font.glyphs.length; index++) {
+        let glyph = font.glyphs.get(index);
         let id = glyph.unicode;
         ctx.clearRect(0, 0, width, height);
         ctx.fillStyle = "black";

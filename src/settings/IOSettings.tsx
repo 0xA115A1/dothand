@@ -31,7 +31,8 @@ function ImportForm(props: Pick<IOSettingsProps, 'setCurrentFont'>) {
 
     return <form class={classes.flex} onSubmit={(e) => {
         e.preventDefault();
-        const file = e.currentTarget.querySelector('input[type="file"]')?.files?.[0];
+        const input = e.currentTarget.querySelector('input[type="file"]') as HTMLInputElement;
+        const file = input.files?.[0];
         if (!file) return;
 
         upload(file)

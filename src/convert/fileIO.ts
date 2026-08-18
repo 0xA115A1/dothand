@@ -1,9 +1,8 @@
-import { FontData, Glyph } from "../utils/FontData.js";
-import opentype, { Path, Glyph as OTGlyph, Font as OTFont } from "opentype.js";
+import { FontData} from "../utils/FontData.js";
+import opentype from "opentype.js";
 import { deserializeFont, serializeFont } from "./serialize.js";
 import { fromTruetype, toTruetype } from "./truetype.js";
-import UnicodeData from "../utils/UnicodeData.jsx";
-import { SetStoreFunction } from "solid-js/store";
+
 
 /* Helper function, just downloads the file with set type and name */
 export function download(data: string | ArrayBuffer | any, type: string, name: string) {
@@ -33,7 +32,7 @@ export async function upload(file: File) {
     function uploadPFS(file: File): Promise<FontData> {
         return new Promise<FontData>((resolve, reject) => {
             const reader = new FileReader();
-            reader.onload = () => resolve(deserializeFont(reader.result));
+            reader.onload = () => resolve(deserializeFont(reader.result as string));
             reader.onerror = reject;
             reader.readAsText(file);
         });
@@ -47,9 +46,17 @@ export async function upload(file: File) {
             reader.readAsArrayBuffer(file);
         });
     }
+    if (!file) {
+        throw new Error("No file provided");
+    }
 
+    let ext = file.name.split('.').pop();
 
-    let fileExtension = file.name.split('.').pop().toLowerCase();
+    if (!ext) {
+        throw new Error("File lacks an extension");
+    }
+
+    let fileExtension = ext.toLowerCase();
     console.log(`Uploading file: ${file.name} with extension: ${fileExtension}`);
     switch (fileExtension) {
         case "pfs":

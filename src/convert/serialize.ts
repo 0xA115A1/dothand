@@ -37,13 +37,25 @@ export function serializeFont(fontData: FontData): string {
 
 export function deserializeFont(raw: string): FontData {
     let lines = raw.split("\n");
-    let iter: Iterator<string, string> & IterableIterator<string> = lines[Symbol.iterator]();
+    let iter = lines[Symbol.iterator]();
+    if (!iter) {
+        throw new Error("Failed to create iterator for metadata.");
+    }
 
-    let name = iter.next().value.replace(/\\n/g, "\n");
-    let author = iter.next().value.replace(/\\n/g, "\n");
-    let style = iter.next().value.replace(/\\n/g, "\n");
+    function readMetadataNext(): string {
 
-    let spacing = iter.next().value.split(":").map(x => +x);
+        const result = iter.next();
+        if (result.done) {
+            throw new Error("Early end of metadata");
+        }
+        return result.value;
+    }
+
+    let name = readMetadataNext().replace(/\\n/g, "\n");
+    let author = readMetadataNext().replace(/\\n/g, "\n");
+    let style = readMetadataNext().replace(/\\n/g, "\n");
+
+    let spacing = readMetadataNext().split(":").map(x => +x);
 
     let fontData: FontData = {
         width: spacing[0],
@@ -96,7 +108,7 @@ export function deserializeFont(raw: string): FontData {
 
 
 export function downloadFont(fontData: FontData) {
-    const url = window.URL.createObjectURL(new Blob([serializeFont(fontData)], {type: "text/plain"}));
+    const url = window.URL.createObjectURL(new Blob([serializeFont(fontData)], { type: "text/plain" }));
     const a = document.createElement("a");
     a.href = url;
     a.download = `${fontData.name.replace(/[^a-zA-Z0-9]/g, "")}-${fontData.style.replace(/[^a-zA-Z0-9]/g, "")}.pfs`;
