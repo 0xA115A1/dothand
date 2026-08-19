@@ -115,45 +115,43 @@ export class Glyph {
         return result;
     }
 
-    /* Glyph centering along X axis
+    /* Glyph centering along Selected axis
     for making monotype fonts 
-    just checks for first and last column
-    which have at least one pixel to determine glyph width
-    and calculates an offset as
-    starting column + half of the glyph width */
-    center(): Glyph {
-        let startX = 0;
-        let endX = this.width;
+    Finds the real width/height from first/last non-empty
+    columns or rows.
+    Then offsets by half of the real width 
+    from the start of the symbol 
+    */
+    center(byX = true, byY = false): Glyph {
+        
+        let offsetX = 0;
+        let offsetY = 0;
+
+        let startX = this.width;
+        let endX = -1;
+        let startY = this.height;
+        let endY = -1;
+
         for (let x = 0; x < this.width; x++) {
-            let hasPixels = false;
             for (let y = 0; y < this.height; y++) {
                 if (this.get(x, y)) {
-                    hasPixels = true;
-                    break;
+                    if (x < startX) { startX = x }
+                    if (x > endX) { endX = x }
+                    if (y < startY) { startY = y }
+                    if (y > endY) { endY = y }
                 }
-            }
-            if (hasPixels) {
-                startX = x;
-                break;
             }
         }
 
-        for (let x = this.width - 1; x >= startX; x--) {
-            let hasPixels = false;
-            for (let y = 0; y < this.height; y++) {
-                if (this.get(x, y)) {
-                    hasPixels = true;
-                    break;
-                }
-            }
-            if (hasPixels) {
-                endX = x;
-                break;
-            }
+        if (byX) {
+            const realWidth = endX - startX;
+            offsetX = Math.floor((this.width - realWidth) / 2) - startX;
         }
-        const realWidth = endX - startX;
-        let offset = Math.floor((this.width - realWidth) / 2) - startX;
-        return this.move(offset, 0);
+        if (byY) {
+            const realHeight = endY - startY;
+            offsetY = Math.floor((this.height - realHeight) / 2) - startY;
+        }
+        return this.move(offsetX, offsetY);
     }
     /* Simple mirroring  */
     mirror(byX = true, byY = false): Glyph {
@@ -169,13 +167,13 @@ export class Glyph {
         }
         return result
     }
-    /*Inverts all characters of the glyph */
+    /*Inverts all pixels of the glyph */
     invert(): Glyph {
         const result = new Glyph(this.width, this.height, this.baseline, this.leftOffset);
 
         for (let x = 0; x < this.width; x++) {
             for (let y = 0; y < this.height; y++) {
-                result.set(x, y, !this.get(x,y))
+                result.set(x, y, !this.get(x, y))
             }
         }
         return result

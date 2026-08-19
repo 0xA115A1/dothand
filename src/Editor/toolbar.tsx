@@ -19,14 +19,14 @@ const OPERATIONS = [
     [EditorOperation.XOR, "XOR"],
     [EditorOperation.ONE, "ONE"],
     [EditorOperation.ZERO, "ZERO"],
-    [EditorOperation.SELECT, "SEL"],
-    [EditorOperation.DESELECT, "DESEL"],
+ /*    [EditorOperation.SELECT, "SEL"],
+    [EditorOperation.DESELECT, "DESEL"], */
 ] as const;
 
 const TOOLS = [
     [EditorTool.DRAW, "Draw"],
     [EditorTool.PAN, "Pan"],
-    [EditorTool.DRAG, "Drag"],
+  /*   [EditorTool.DRAG, "Drag"], */
 ] as const;
 
 export default function EditorToolbar(props: EditorToolbarProps) {

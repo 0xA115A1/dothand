@@ -1,4 +1,4 @@
-import { Accessor, createSignal } from "solid-js";
+import { Accessor, createSignal, For } from "solid-js";
 import Button from "../atoms/Button.jsx";
 import Dropdown from "../atoms/Dropdown.jsx";
 import Setting from "../molecules/Setting.jsx";
@@ -14,12 +14,37 @@ export type GlyphSettingsProps = {
 
 // TODO: have a preview of the new coordinates
 // TODO: add buttons for resetting glyph
+
+type MoveDirection = "up" | "down" | "left" | "right" | "up-right" | "up-left" | "down-right" | "down-left" | "center";
+const moveDirectionMap: Record<MoveDirection, [number, number]> = {
+    "up": [0, -1],
+    "down": [0, 1],
+    "left": [-1, 0],
+    "right": [1, 0],
+    "up-right": [1, -1],
+    "up-left": [-1, -1],
+    "down-right": [1, 1],
+    "down-left": [-1, 1],
+    "center": [0, 0]
+};
+
 export default function GlyphSettings(props: GlyphSettingsProps) {
     const [temporaryWidth, setTemporaryWidth] = createSignal(props.currentGlyph().width);
     const [temporaryHeight, setTemporaryHeight] = createSignal(props.currentGlyph().height);
     const [corner, setCorner] = createSignal<Corner>(Corner.TOP_RIGHT);
 
     const [pasteGlyph, setPasteGlyph] = createSignal("");
+    const directionButtons: Record<MoveDirection, string> = {
+        "up-left": "↖",
+        "up": "↑",
+        "up-right": "↗",
+        "left": "←",
+        "center": "•",
+        "right": "→",
+        "down-left": "↙",
+        "down": "↓",
+        "down-right": "↘",
+    };
 
     return (<article class={classes.settings}>
         <h2>Paste another glyph</h2>
@@ -119,7 +144,7 @@ export default function GlyphSettings(props: GlyphSettingsProps) {
                 }}
             />
         </div>
-        
+
         <h2>Operations</h2>
         <div class={classes.flex}>
             <Button
@@ -164,7 +189,39 @@ export default function GlyphSettings(props: GlyphSettingsProps) {
                 Invert
 
             </Button>
-            
+        </div>
+        <h2>Move glyph</h2>
+        <div class={classes.move_grid}>
+            {<For each={Object.entries(directionButtons)}>
+
+                {([key, value]) => {
+                    let dir = moveDirectionMap[key as MoveDirection];
+
+                    if (key === "center") {
+                        return (<Button
+                            theme="mover"
+                            onClick={() => {
+                                const glyph = props.currentGlyph().center(true, true);
+
+                                props.setCurrentGlyph(glyph);
+                            }}>
+
+                            {value}
+                        </Button>)
+                    }
+
+                    return (<Button
+                        theme="mover"
+                        onClick={() => {
+                            const glyph = props.currentGlyph().move(dir[0], dir[1]);
+
+                            props.setCurrentGlyph(glyph);
+                        }}
+                    >
+                        {value}
+                    </Button>)
+                }}
+            </For>}
         </div>
     </article>);
 }

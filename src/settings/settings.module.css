@@ -50,3 +50,11 @@
     background-color: transparent;
     transition: background-color 0.2s, box-shadow 0.2s, border 0.2s, color 0.2s;
 }
+
+
+.move_grid{
+    width:0;
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}

@@ -76,3 +76,13 @@
     justify-content: center;
     align-items: center;
 }
+
+.button.mover{
+    height: 4rem; /* Update the move buttons grid dimensions
+    to match, if it's changed. */
+    aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}

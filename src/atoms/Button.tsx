@@ -6,7 +6,7 @@ export type ButtonProps = {
     children: JSX.Element,
     selected?: boolean,
     onClick?: () => void,
-    theme?: "settings" | "default" | "glyphbar",
+    theme?: string,
     disabled?: boolean | (() => boolean) | boolean,
     className?: string
 } & Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'disabled'>;
@@ -24,6 +24,7 @@ export default function Button(props: ButtonProps) {
             props.selected ? classes.selected : undefined,
             props.theme === "settings" ? classes.settings : undefined,
             props.theme === "glyphbar" ? classes.glyphbar : undefined,
+            props.theme === "mover" ? classes.mover : undefined,
             props.className
         ].filter((x): x is string => !!x).join(" ")}
         onClick={props.onClick}
