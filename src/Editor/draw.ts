@@ -199,7 +199,20 @@ function drawGrid(
         );
     }
 
-   
+    if (leftOffset > width || leftOffset < 0) {
+        ctx.horizontalLine(
+            drawAreaLeft + drawAreaWidth,
+            drawAreaTop,
+            leftOffset * pixelSize - drawAreaWidth
+        );
+        ctx.horizontalLine(
+            drawAreaLeft + drawAreaWidth,
+            drawAreaTop + drawAreaHeight,
+            leftOffset * pixelSize - drawAreaWidth
+        );
+    }
+
+    ctx.context.setLineDash([]);
 
     // Draw baseline
     ctx.lineWidth = 3;

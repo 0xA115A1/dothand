@@ -10,10 +10,10 @@ export type SettingProps<Type extends keyof InputType> = {
 } & Omit<InputProps<Type>, "onChange" | "onKeyUp" | "title" | "type" | "theme" | "children">;
 
 export default function Setting<Type extends keyof InputType = "text">(
-    {type, description, onChange, placeholder, ...props}: SettingProps<Type>
+    props: SettingProps<Type>
 ) {
     function convertValue(value: string): InputType[Type] {
-        if (type === "number") {
+        if (props.type === "number") {
             return Number(value) as any;
         } else {
             return value as any;
@@ -25,12 +25,14 @@ export default function Setting<Type extends keyof InputType = "text">(
         <Input
             {...props}
             theme="setting"
-            type={type}
-            title={description}
+            type={props.type}
+            title={props.description}
             onKeyUp={(event) => {
-                onChange(convertValue(event.currentTarget.value), event.currentTarget);
+                props.onChange(convertValue(event.currentTarget.value), event.currentTarget);
             }}
-            onChange={onChange}
-        >{typeof placeholder === "function" ? String(placeholder()) : String(placeholder ?? "")}</Input>
+            onChange={props.onChange}
+            min={props.min}
+            max={props.max}
+        >{typeof props.placeholder === "function" ? String(props.placeholder()) : String(props.placeholder ?? "")}</Input>
     </div>;
 }

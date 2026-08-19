@@ -18,6 +18,8 @@ export type InputProps<Type extends keyof InputType = "text"> = {
     size?: "tiny" | "small" | "default",
     theme?: "setting" | "default",
     title?: string,
+    min?: number,
+    max?: number
 };
 
 // export default function Input(props: Omit<InputProps<"text">, "type">): JSX.Element;
@@ -46,9 +48,23 @@ export default function Input<Type extends keyof InputType>(
             } else {
                 value = String(props.value);
             }
-
-            inputRef.value = value;
+            if (props.min && parseFloat(value) < props.min) {
+                value = String(props.min)
+            }
+            if (props.max && parseFloat(value) > props.max) {
+                value = String(props.max)
+            }
+            if (inputRef.value !== value) {
+                inputRef.value = value;
+                props.onChange?.(convertValue(value), inputRef);
+            }
         }
+    });
+
+    createEffect(() => {
+        if (!inputRef) return;
+        if (props.min !== undefined) inputRef.min = String(props.min);
+        if (props.max !== undefined) inputRef.max = String(props.max);
     });
 
     return (<input
@@ -71,5 +87,9 @@ export default function Input<Type extends keyof InputType>(
         onChange={(event) => {
             props.onChange?.(convertValue(event.currentTarget.value), event.currentTarget);
         }}
+        min={String(props.min)}
+        max={String(props.max)}
     />);
+
+
 }

@@ -63,25 +63,31 @@ export default function FontSettings(props: FontSettingsProps) {
                     type="number"
                     prefix="Baseline:"
                     size="tiny"
-                    value={untrack(() => props.currentFont.baseline)}
+                    value={props.currentFont.baseline}
                     description="The global baseline, which is the line on top of which most characters 'sit'. In pixels from the top of the glyph."
                     onChange={createSetter("baseline", 0)}
+                    min={0}
+                    max={currentFont.height}
                 />
                 <Setting
                     type="number"
                     prefix="Ascend:"
                     size="tiny"
-                    value={untrack(() => props.currentFont.ascend)}
+                    value={props.currentFont.ascend}
                     description="The global ascend, defines how high up capital letters like 'T' will rise. In pixels from the baseline, going up."
                     onChange={createSetter("ascend", 0)}
+                    min={0}
+                    max={props.currentFont.baseline}
                 />
                 <Setting
                     type="number"
                     prefix="Descend:"
                     size="tiny"
-                    value={untrack(() => props.currentFont.descend)}
+                    value={props.currentFont.descend}
                     description="The global descend, defines how low letters like 'g' will go below the baseline. In pixels from the baseline, going up (you will thus need a negative value)."
                     onChange={createSetter("descend", 0)}
+                    max={0}
+                    min={currentFont.baseline - currentFont.height}
                 />
             </div>
 

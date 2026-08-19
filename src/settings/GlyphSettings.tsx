@@ -131,6 +131,8 @@ export default function GlyphSettings(props: GlyphSettingsProps) {
                 onChange={(baseline) => {
                     props.setCurrentGlyph(props.currentGlyph().setBaseline(baseline));
                 }}
+                min = {0}
+                max = {props.currentGlyph().height}
             />
             <Setting
                 type="number"

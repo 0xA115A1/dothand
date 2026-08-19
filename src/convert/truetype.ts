@@ -218,6 +218,7 @@ export function toTruetype(fontData: FontData, unicodeData: Map<number, string>)
 
     let emPixels = Math.max(fontData.width, fontData.height)
     let pixelUnits = Math.round(UNITS_PER_EM/emPixels)
+    /* The rounding gould lead to something unexpected, watch out for that */
 
     /* Ok we create a .notdef glyph, not sure why */
     let notdef_glyph = new OTGlyph({
@@ -308,7 +309,7 @@ export function toTruetype(fontData: FontData, unicodeData: Map<number, string>)
         styleName: fontData.style || "Medium",
         unitsPerEm: UNITS_PER_EM,
         ascender: pixelUnits * fontData.ascend,
-        descender: pixelUnits * fontData.descend,
+        descender:   pixelUnits * fontData.descend,
         glyphs,
     });
 
