@@ -18,7 +18,6 @@ export default function App() {
         ascend: 7,
         descend: 0,
         spacing: 1,
-        emSize: 8,
         leftOffset: 0,
         glyphs: new Map(),
         // history: [],

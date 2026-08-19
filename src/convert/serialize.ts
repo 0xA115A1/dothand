@@ -6,7 +6,7 @@ export function serializeFont(fontData: FontData): string {
     res += fontData.author.replace(/\n/g, "\\n") + "\n";
     res += fontData.style.replace(/\n/g, "\\n") + "\n";
     res += `${fontData.width}:${fontData.height}`;
-    res += `:${fontData.baseline}:${fontData.ascend}:${fontData.descend}:${fontData.spacing}:${fontData.emSize}:${fontData.leftOffset}`;
+    res += `:${fontData.baseline}:${fontData.ascend}:${fontData.descend}:${fontData.spacing}:${fontData.leftOffset}`;
 
     for (let [id, glyph] of fontData.glyphs) {
         let buffer = new Uint8Array(Math.ceil(glyph.width * glyph.height / 8 / Uint8Array.BYTES_PER_ELEMENT));
@@ -64,7 +64,6 @@ export function deserializeFont(raw: string): FontData {
         ascend: spacing[3],
         descend: spacing[4],
         spacing: spacing[5],
-        emSize: spacing[6],
         leftOffset: spacing[7] ?? 0,
 
         glyphs: new Map(),

@@ -168,7 +168,6 @@ function drawGrid(
     ctx.strokeStyle = COLOR_GRID;
     horizontalLine(baseline - fontData.descend);
     horizontalLine(baseline - fontData.ascend);
-    verticalLine(leftOffset + fontData.emSize);
 
     // Connect guides to the main grid if they extend past it
     ctx.lineWidth = 1;
@@ -200,19 +199,7 @@ function drawGrid(
         );
     }
 
-    if (leftOffset + fontData.emSize > width) {
-        ctx.horizontalLine(
-            drawAreaLeft + drawAreaWidth,
-            drawAreaTop,
-            (leftOffset + fontData.emSize) * pixelSize - drawAreaWidth
-        );
-        ctx.horizontalLine(
-            drawAreaLeft + drawAreaWidth,
-            drawAreaTop + drawAreaHeight,
-            (leftOffset + fontData.emSize) * pixelSize - drawAreaWidth
-        );
-    }
-    ctx.context.setLineDash([]);
+   
 
     // Draw baseline
     ctx.lineWidth = 3;

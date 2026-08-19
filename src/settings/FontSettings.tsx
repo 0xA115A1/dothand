@@ -89,15 +89,6 @@ export default function FontSettings(props: FontSettingsProps) {
             <div class={classes.flex}>
                 <Setting
                     type="number"
-                    prefix="Em size:"
-                    size="tiny"
-                    value={untrack(() => props.currentFont.emSize)}
-                    description="The global 'em' size, which is the width of the letter 'M', in pixels from the left offset. To get pixel-perfect results when using the font, you should set the font size to a multiple of this value!"
-                    onChange={createSetter("emSize", 0)}
-                />
-
-                <Setting
-                    type="number"
                     prefix="Left offset:"
                     size="tiny"
                     value={untrack(() => props.currentFont.leftOffset)}

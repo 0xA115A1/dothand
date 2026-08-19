@@ -188,7 +188,6 @@ export type FontData = {
     height: number;
     baseline: number;
     spacing: number;
-    emSize: number;
     leftOffset: number;
 
     name: string;
