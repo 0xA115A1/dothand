@@ -66,4 +66,6 @@
     display: "block";
     height: 100%;
     width: auto;
+    max-width: 2rem;
+    max-height: 2rem;
 }
