@@ -41,7 +41,7 @@ function ImportForm(props: Pick<IOSettingsProps, 'setCurrentFont'>) {
             })
             .catch(err => console.error('Upload failed:', err));
     }}>
-        <input type='file' accept='.pfs,.otf,.ttf' />
+        <input type='file' accept='.pfs,.otf' />
         <Button
             theme="settings"
             type="submit"

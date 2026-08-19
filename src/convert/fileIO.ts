@@ -61,8 +61,8 @@ export async function upload(file: File) {
     switch (fileExtension) {
         case "pfs":
             return await uploadPFS(file);
-        case "otf":
-        case "ttf":
+        case "otf":/* 
+        case "ttf": */
             return await uploadTrueType(file);
         default:
             console.error("Unsupported file type");
