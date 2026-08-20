@@ -1,39 +1,39 @@
-# Online Pixel Font Creator
+# Dothand — pixel font editor
 
-A tool for creating, editing and exporting pixel fonts within the browser.
-[You can try it out here!](https://adri326.github.io/online-pixel-font-creator/index.html)
+Online tool for creation and TrueType export of pixel fonts.
+[You can check it out here!](https://pages.0xa115a1.com/dothand)
 
-Simply import one of the [included example fonts](https://github.com/adri326/online-pixel-font-creator/tree/main/examples) by pasting it into the text area in the "Upload" menu, and then selecting "Import as pixel font string (.pfs)".
 
-## Inspiration
+## Inspiration!
+This is a maintained fork of [Shad Amethyst's](https://github.com/adri326) [Online Pixel Font Creator](https://adri326.github.io/online-pixel-font-creator/index.html), which still stays one of the best tools for the use-case, and as far as I know, the only one with both TrueType font export and web-interface. 
+While I quite enjoy working in it, I find it lacking some functionality. And, more importantly, though it's still online, lately it's having problems with font exports, due to, well, Time.,,
+Therefore to fix a great tool, and maybe make it a bit better, I'm doing this.
 
-This tool is inspired by [YellowAfterLife's](https://yal.cc) [excellent tool for converting images into pixel fonts](https://yellowafterlife.itch.io/pixelfont).
-The font creation process using YellowAfterLife's tool has some downsides, which resolve around the need to put all of the glyphs into one growing image:
+## Progress?
+As a base for development I used the author's unfinished SolidJs rewrite of the tool. And while it saved me from rewriting raw js into some framework, it still needed some work to get to a state, comparable to the old version.
+Currently I consider this rework to be generally on par with the original, of course somewhere laking old features, but providing new.
+Notable additions include:
+- Working font export
+- Reworked calculations of TrueType dimensions metadata to better reflect the standards, as previous approach sometimes lead to rendering issues and broken exports, and notably lead to most extremely wide fonts be considered incorrect.
+- A set of glyph-wise operations for centering, mirroring, and bit-invert. (And font-wize centering for monospace font making)
+- Glyph move tool (which sadly for now doubles as a replacement for select tool)
+- Support of several named saves in browser's localStorage.
+- And well, a bunch of refactoring and UI fixes, but that's not a feature.
 
-- Growing the image horizontally is tricky, as the new characters added on the right will end up being unrelated to the previous ones (eg. having `Ы` placed next to `G`), which makes further organization harder.
-- Growing the image vertically has the consequence of ending up with an image that is hard to navigate around in an image editor.
-- You need to think about where each glyph will be in the image; if you sporadically add glyphs that you need, then you might forget where you put them (and you end up with messy indices like [unicode's double-struck characters](https://altcodeunicode.com/alt-codes-math-symbols-double-struck-letters/))
-- The have to alternate between editing the font in an image editor and the converter to preview the font
+![Current state of affairs](examples/new_screenshot.png)
 
-This tool was thus created to remove the need to lay out glyphs in a 2D image and to alternate between two programs.
-It features:
-
-- controls close to [Krita](https://krita.org)'s
-- visual guides for the different spacing options
-- saving in the browser using `localStorage` and locally using a simple file format
-- exporting to `OTF` (`TTF` to come), with an efficient path generation algorithm
-- built-in preview of the glyphs
-- tools for resizing glyphs, copying glyphs to other glyphs, etc.
-
-![Screenshot of the application](examples/screenshot.png)
-
-*Note: The source code is still quite messy, sorry for that.*
 
 ## TODO
-
-- rectangle mode
-- tooltips everywhere
-- re-do the controls of the preview canvas
-- more upload options and more export options
-- support ligatures
-- document the UI
+### Old-features revival:
+- [ ] Selection 
+- [ ] Text preview
+- [ ] Edit history
+- [ ] More dimensional helpers
+### Planned new features:
+- [ ] Add TTF and WOFF export 
+- [ ] More tools: brushes / rectangles for drawing / selection.
+- [ ] Prettifying the UI generally,
+- [ ] Add more inputs for missing font metadata. 
+- [ ] Better glyph navigation, e.g. by Unicode block.
+- [ ] Autosave
+- [ ] More hotkeys, and probably common hot-key schemes support.
