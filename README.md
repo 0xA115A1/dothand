@@ -2,7 +2,7 @@
 
 Online tool for creation and TrueType export of pixel fonts.
 [You can check it out here!](https://pages.0xa115a1.com/dothand)
-
+![Current state of affairs](public/dothand256.png)
 
 ## Inspiration!
 This is a maintained fork of [Shad Amethyst's](https://github.com/adri326) [Online Pixel Font Creator](https://adri326.github.io/online-pixel-font-creator/index.html), which still stays one of the best tools for the use-case, and as far as I know, the only one with both TrueType font export and web-interface. 
