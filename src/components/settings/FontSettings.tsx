@@ -1,11 +1,10 @@
 import { untrack } from "solid-js";
 import { SetStoreFunction } from "solid-js/store";
-// import Button from "../atoms/Button.jsx";
-import Setting from "../molecules/Setting.jsx";
-import { FontData } from "../utils/FontData.js";
+import Setting from "../_ui/molecules/Setting.jsx";
+import { FontData } from "../../logic/font/FontModel.js";
 import FontName from "./FontName.jsx";
 import classes from "./settings.module.css";
-import Button from "../atoms/Button.jsx";
+import Button from "../_ui/atoms/Button.jsx";
 
 export type FontSettingsProps = {
     currentFont: FontData,

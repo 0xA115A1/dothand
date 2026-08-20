@@ -1,7 +1,7 @@
 import { getContext2D, PixelPerfectContext2D } from "@shadryx/pptk";
 import { appSettings } from "../settings/AppSettings.jsx";
-import { UTF16FromCharCode } from "../utils.js";
-import { FontData, Glyph } from "../utils/FontData.js";
+import { UTF16FromCharCode } from "../../common/utils/UTFparse.js";
+import { FontData, Glyph } from "../../logic/font/FontModel.js";
 import { AffineTransformation } from "./drawArea.js";
 import {
     COLOR_PRIMARY_DARK,
@@ -14,7 +14,7 @@ import {
     COLOR_BLACK,
     COLOR_WHITE,
     COLOR_LIGHT_BLUE
-} from "../common/colors.js";
+} from "../../common/const/colors.js";
 
 
 const COLOR_BG = COLOR_GRAY_MEDIUM;

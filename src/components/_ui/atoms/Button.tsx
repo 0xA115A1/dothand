@@ -28,8 +28,10 @@ export default function Button(props: ButtonProps) {
             props.className
         ].filter((x): x is string => !!x).join(" ")}
         onClick={props.onClick}
-        disabled={isDisabled}
+        disabled={typeof props.disabled === "function"
+            ? props.disabled()
+            : props.disabled}
     >
         {props.children}
-    </button>);
+    </button >);
 }

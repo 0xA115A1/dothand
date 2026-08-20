@@ -1,5 +1,5 @@
-import { UTF16FromCharCode } from "../utils.js";
-import { useUnicodeData } from "../utils/UnicodeData.jsx";
+import { UTF16FromCharCode } from "../../common/utils/UTFparse.js";
+import { useUnicodeData } from "../../context/UnicodeData.jsx";
 import classes from "./style.module.css";
 
 export type EditorInfoProps = {

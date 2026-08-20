@@ -1,8 +1,9 @@
-import { FontData} from "../utils/FontData.js";
+import { FontData} from "./FontModel.js";
 import opentype from "opentype.js";
-import { deserializeFont, serializeFont } from "./serialize.js";
-import { fromTruetype, toTruetype } from "./truetype.js";
+import { deserializeFont, serializeFont } from "./convert/serialize.js";
+import { fromTruetype, toTruetype } from "./convert/truetype.js"
 
+export type TTTypes = 'otf' | 'ttf' | 'woff'
 
 /* Helper function, just downloads the file with set type and name */
 export function download(data: string | ArrayBuffer | any, type: string, name: string) {
@@ -20,10 +21,10 @@ export function downloadPFS(data: FontData): void {
     download(fd, type, name)
 }
 
-export function downloadTrueType(data: FontData, unicodeDAta: Map<number, string>): void {
-    let fd = toTruetype(data, unicodeDAta).toArrayBuffer()
+export function downloadTrueType(data: FontData, unicodeData:Map<number, string>, ext:TTTypes = 'otf'): void {
+    let fd = toTruetype(data, unicodeData).toArrayBuffer()
     let type = "font/opentype";
-    let name = `${data.name.replace(/[^a-zA-Z0-9]/g, "")}-${data.style.replace(/[^a-zA-Z0-9]/g, "")}.otf`;
+    let name = `${data.name.replace(/[^a-zA-Z0-9]/g, "")}-${data.style.replace(/[^a-zA-Z0-9]/g, "")}.${ext}`;
     download(fd, type, name)
 }
 

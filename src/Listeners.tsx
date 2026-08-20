@@ -1,10 +1,10 @@
 import { Accessor, onCleanup, Setter } from "solid-js";
 import { SetStoreFunction } from "solid-js/store";
-import { FontData } from "./utils/FontData.js";
-import { saveFont } from "./convert/localSave.js";
+import { FontData } from "./logic/font/FontModel.js";
+import { FontController } from "./logic/font/FontController.js";
 
 export type ListenersProps = {
-    fontData: FontData,
+    fontController: FontController,
     setFontData: SetStoreFunction<FontData>,
     currentGlyphIndex: Accessor<number>,
     setCurrentGlyphIndex: Setter<number>,
@@ -15,7 +15,7 @@ export default function Listeners(props: ListenersProps) {
         console.log(event.code, event.ctrlKey, event.shiftKey);
         if (event.code === "KeyS" && event.ctrlKey && !event.shiftKey) {
             event.preventDefault();
-            saveFont(props.fontData);
+            props.fontController.save()
         } else if ((event.code === "ArrowLeft" || event.code === "ArrowRight") && !event.ctrlKey) {
             if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
                 return;

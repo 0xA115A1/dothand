@@ -1,6 +1,6 @@
-import { FontData } from "../utils/FontData.js";
+import { FontData } from "../../logic/font/FontModel.js";
 import { Accessor, createMemo, Setter } from "solid-js";
-import Button from "../atoms/Button.jsx";
+import Button from "../_ui/atoms/Button.jsx";
 import { onMount, createEffect, For } from "solid-js";
 import { createStore } from "solid-js/store";
 import classes from "./style.module.css";
@@ -15,7 +15,7 @@ import {
     COLOR_BLACK,
     COLOR_WHITE,
     COLOR_LIGHT_BLUE
-} from "../common/colors.js";
+} from "../../common/const/colors.js";
 
 const COLOR_CURRENT = COLOR_ALT_LIGHT;
 const COLOR_NEIGHBORS = COLOR_PRIMARY_LIGHT;

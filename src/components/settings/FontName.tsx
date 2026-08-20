@@ -1,6 +1,6 @@
 import { SetStoreFunction } from "solid-js/store";
-import Setting from "../molecules/Setting.jsx";
-import { FontData } from "../utils/FontData.js";
+import Setting from "../_ui/molecules/Setting.jsx";
+import { FontData } from "../../logic/font/FontModel.js";
 
 export type FontNameProps = {
     currentFont: FontData,

@@ -1,5 +1,5 @@
 import { PannableState } from "@shadryx/pptk";
-import { Glyph } from "../utils/FontData.js";
+import { Glyph } from "../../logic/font/FontModel.js";
 
 export interface AffineTransformation {
     readonly scale: number;

@@ -1,7 +1,7 @@
 import { For } from "solid-js";
-import Button from "../atoms/Button.jsx";
-import Input from "../atoms/Input.jsx";
-import { charCodeFromUTF16, parseGlyphOrIndex, parseUTF16 } from "../utils.js";
+import Button from "../_ui/atoms/Button.jsx";
+import Input from "../_ui/atoms/Input.jsx";
+import { charCodeFromUTF16, parseGlyphOrIndex, parseUTF16 } from "../../common/utils/UTFparse.js";
 import classes from "./style.module.css";
 import { EditorOperation, EditorTool } from "./types.js";
 

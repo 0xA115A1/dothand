@@ -1,5 +1,5 @@
-import { FontData, Glyph } from "../utils/FontData.js";
-import { base64ToBytes, bytesToBase64 } from "./base64.js";
+import { FontData, Glyph } from "../FontModel.js";
+import { base64ToBytes, bytesToBase64 } from "../../../common/utils/base64.js";
 
 export function serializeFont(fontData: FontData): string {
     let res = fontData.name.replace(/\n/g, "\\n") + "\n";
@@ -64,7 +64,7 @@ export function deserializeFont(raw: string): FontData {
         ascend: spacing[3],
         descend: spacing[4],
         spacing: spacing[5],
-        leftOffset: spacing[7] ?? 0,
+        leftOffset: spacing[6] ?? 0,
 
         glyphs: new Map(),
         // history: [],
@@ -105,11 +105,3 @@ export function deserializeFont(raw: string): FontData {
     return fontData;
 }
 
-
-export function downloadFont(fontData: FontData) {
-    const url = window.URL.createObjectURL(new Blob([serializeFont(fontData)], { type: "text/plain" }));
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${fontData.name.replace(/[^a-zA-Z0-9]/g, "")}-${fontData.style.replace(/[^a-zA-Z0-9]/g, "")}.pfs`;
-    a.click();
-}

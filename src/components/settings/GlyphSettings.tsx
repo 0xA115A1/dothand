@@ -1,9 +1,9 @@
 import { Accessor, createSignal, For } from "solid-js";
-import Button from "../atoms/Button.jsx";
-import Dropdown from "../atoms/Dropdown.jsx";
-import Setting from "../molecules/Setting.jsx";
-import { parseGlyphOrIndex } from "../utils.js";
-import { Corner, FontData, Glyph } from "../utils/FontData.js";
+import Button from "../_ui/atoms/Button.jsx";
+import Dropdown from "../_ui/atoms/Dropdown.jsx";
+import Setting from "../_ui/molecules/Setting.jsx";
+import { parseGlyphOrIndex } from "../../common/utils/UTFparse.js";
+import { Corner, FontData, Glyph } from "../../logic/font/FontModel.js";
 import classes from "./settings.module.css";
 
 export type GlyphSettingsProps = {
@@ -129,7 +129,9 @@ export default function GlyphSettings(props: GlyphSettingsProps) {
                 placeholder={props.currentFont.baseline}
                 description="The baseline of the current glyph"
                 onChange={(baseline) => {
-                    props.setCurrentGlyph(props.currentGlyph().setBaseline(baseline));
+                    const glyph=props.currentGlyph().setBaseline(baseline)
+
+                    props.setCurrentGlyph(glyph);
                 }}
                 min = {0}
                 max = {props.currentGlyph().height}
@@ -142,7 +144,9 @@ export default function GlyphSettings(props: GlyphSettingsProps) {
                 placeholder={props.currentFont.leftOffset}
                 description="The left offset of the current glyph"
                 onChange={(leftOffset) => {
-                    props.setCurrentGlyph(props.currentGlyph().setLeftOffset(leftOffset));
+                    const glyph = props.currentGlyph().setLeftOffset(leftOffset)
+
+                    props.setCurrentGlyph(glyph);
                 }}
             />
         </div>

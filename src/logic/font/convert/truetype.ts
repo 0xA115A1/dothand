@@ -1,6 +1,5 @@
-import { Path, Glyph as OTGlyph, Font as OTFont, Font } from "opentype.js";
-import { FontData, Glyph } from "../utils/FontData.js";
-import UnicodeData from "../utils/UnicodeData.jsx";
+import { Path, Glyph as OTGlyph, Font as OTFont } from "opentype.js";
+import { FontData, Glyph } from "../FontModel.js";
 
 /* Patch of opentype.js Font interface 
 as in https://github.com/opentypejs/opentype.js/discussions/620

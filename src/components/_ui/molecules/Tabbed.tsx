@@ -1,4 +1,4 @@
-import { createSignal, For, JSX, Match, Switch } from "solid-js";
+import { createSignal, For, JSX } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import classes from "./Tabbed.module.css";
 
