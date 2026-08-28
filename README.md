@@ -6,12 +6,12 @@ Online tool for creation and TrueType export of pixel fonts.
 
 ## Inspiration!
 This is a maintained fork of [Shad Amethyst's](https://github.com/adri326) [Online Pixel Font Creator](https://adri326.github.io/online-pixel-font-creator/index.html), which still stays one of the best tools for the use-case, and as far as I know, the only one with both TrueType font export and web-interface. 
-While I quite enjoy working in it, I find it lacking some functionality. And, more importantly, though it's still online, lately it's having problems with font exports, due to, well, Time.,,
+While I quite enjoy working in it, I find it lacking some functionality. And, more importantly, though it's still online, lately it's having problems with font exports due to tome.
 Therefore to fix a great tool, and maybe make it a bit better, I'm doing this.
 
 ## Progress?
 As a base for development I used the author's unfinished SolidJs rewrite of the tool. And while it saved me from rewriting raw js into some framework, it still needed some work to get to a state, comparable to the old version.
-Currently I consider this rework to be generally on par with the original, of course somewhere laking old features, but providing new.
+Currently I consider this rework to be generally on par with the original, of course somewhere lacking old features, but providing new.
 Notable additions include:
 - Working font export
 - Reworked calculations of TrueType dimensions metadata to better reflect the standards, as previous approach sometimes lead to rendering issues and broken exports, and notably lead to most extremely wide fonts be considered incorrect.
