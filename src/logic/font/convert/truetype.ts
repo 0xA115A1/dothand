@@ -313,9 +313,10 @@ export function toTruetype(fontData: FontData, unicodeData: Map<number, string>)
     });
 
     newFont.metas = newFont.metas || {};
-    newFont.metas.DOTHAND = JSON.stringify(metadata);
+    /* The name of the our meta MUST be 4 characters or everything brakes */
+    newFont.metas.DHFE = JSON.stringify(metadata);
 
-    console.log(newFont.metas.DOTHAND);
+    console.log(newFont.metas.DHFE);
     return newFont;
 }
 
@@ -325,11 +326,11 @@ export function fromTruetype(font: OTFont) {
         throw new Error("Font is not supported!");
     }
 
-    if (!font.metas || !font.metas.DOTHAND) {
-        throw new Error("Font is missing DOTHAND metadata!");
+    if (!font.metas || !font.metas.DHFE) {
+        throw new Error("Font is missing DHFE metadata!");
     }
 
-    let metadata = JSON.parse(font.metas.DOTHAND);
+    let metadata = JSON.parse(font.metas.DHFE);
 
 
     let name = metadata.name;
@@ -348,7 +349,7 @@ export function fromTruetype(font: OTFont) {
     let emPixels = Math.max(width,height)
 
 
-    console.log(font.metas.DOTHAND);
+    console.log(font.metas.DHFE);
 
     let canvas = document.createElement("canvas");
     canvas.width = width;
