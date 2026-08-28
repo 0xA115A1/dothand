@@ -46,3 +46,4 @@ Notable additions include:
 - [ ] Centralize data/types
 - [ ] Cut up listeners, when it's will make sense to
 - [ ] Rewrite/Wrap Glyph à la Font Controller, it's a bit annoying to replace the glyph with a mutated one using a setter. Perhaps as a wrapper over a signal or in FontController itself (not a good style). There is surely a reason it's treated as immutable, so rewriting it's class to convenient mutability is probably not the brightest idea.
+- [ ] Rewrite some of the data-structures. Freezed objects and indexed enums to Maps/named types for convenience. And tuple/arrays to objects where it's necessary (e.g. Corner tuple in truetype conversion)

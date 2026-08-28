@@ -138,6 +138,20 @@ export default function FontSettings(props: FontSettingsProps) {
             >
                 Center
             </Button>
+
+            <Button
+                theme="settings"
+                onClick={() => {
+                    const newGlyphs = new Map();
+                    currentFont.glyphs.forEach((glyph, key) => {
+                        const cut = glyph.cut(); // mutates, returns same object
+                        newGlyphs.set(key, cut.clone()); // or ensure it's a new object
+                    });
+                    setCurrentFont("glyphs", newGlyphs);
+                }}
+            >
+                Cut
+            </Button>
         </div>
     </article>);
 }

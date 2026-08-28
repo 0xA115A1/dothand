@@ -101,6 +101,29 @@ export class Glyph {
 
         return this.resize(horizontal ? width : this.width, vertical ? height : this.height, corner);
     }
+
+    cut(byX: boolean = true, byY: boolean = false): Glyph {
+        let minX = this.width - 1;
+        let maxX = 0;
+        let minY = this.height - 1;
+        let maxY = 0;
+
+        for (let y = 0; y < this.height; y++) {
+            for (let x = 0; x < this.width; x++) {
+                if (this.get(x, y)) {
+                    minX = Math.min(minX, x);
+                    maxX = Math.max(maxX, x);
+                    minY = Math.min(minY, y);
+                    maxY = Math.max(maxY, y);
+                }
+            }
+        }
+        const width = maxX - minX+1
+        const height = maxY - minY+1
+        /* move the whole glyph to bottom-left corner 
+        to cut everything from top-right corner */
+        return this.move(byX?-minX:0,byY?-minY:0).resize(byX ? width : this.width, byY ? height : this.height, Corner.TOP_RIGHT);
+    }
     /* Basic move helper, returns a new glyph
         offset by respective x and y values. */
     move(xOffset: number = 0, yOffset: number = 0): Glyph {
@@ -123,7 +146,7 @@ export class Glyph {
     from the start of the symbol 
     */
     center(byX = true, byY = false): Glyph {
-        
+
         let offsetX = 0;
         let offsetY = 0;
 

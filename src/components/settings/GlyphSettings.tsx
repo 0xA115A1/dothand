@@ -188,6 +188,18 @@ export default function GlyphSettings(props: GlyphSettingsProps) {
                 Invert
 
             </Button>
+
+            <Button
+                theme="settings"
+                onClick={() => {
+                    const glyph = props.currentGlyph().cut();
+
+                    props.setCurrentGlyph(glyph);
+                }}
+            >
+                Cut
+
+            </Button>
         </div>
         <h2>Move glyph</h2>
         <div class={classes.move_grid}>
