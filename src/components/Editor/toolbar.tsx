@@ -19,7 +19,7 @@ const OPERATIONS = [
     [EditorOperation.XOR, "XOR"],
     [EditorOperation.ONE, "ONE"],
     [EditorOperation.ZERO, "ZERO"],
- /*    [EditorOperation.SELECT, "SEL"],
+ /* [EditorOperation.SELECT, "SEL"],
     [EditorOperation.DESELECT, "DESEL"], */
 ] as const;
 

@@ -3,7 +3,7 @@ import { JSX } from "solid-js/jsx-runtime";
 
 const Context = createContext<Map<number, string>>(new Map());
 
-export function useUnicodeData() {
+export function useUnicode() {
     return useContext(Context);
 }
 
@@ -29,7 +29,7 @@ let fetchUnicodeData = fetch("./UnicodeData.txt")
         return result;
     });
 
-export default function UnicodeData(props: UnicodeDataProps) {
+export default function UnicodeProvider(props: UnicodeDataProps) {
     const [resource] = createResource(() => fetchUnicodeData);
 
     return (<Suspense fallback={props.fallback ?? "Loading unicode data..."}>

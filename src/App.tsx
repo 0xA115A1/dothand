@@ -8,21 +8,27 @@ import GlyphSettings from "./components/settings/GlyphSettings.jsx";
 import IOSettings from "./components/settings/IOSettings.jsx";
 import { FontData, Glyph } from "./logic/font/FontModel.js";
 import { FontController } from "./logic/font/FontController.js";
-import UnicodeData, { useUnicodeData } from "./context/UnicodeData.jsx";
+import UnicodeProvider, { useUnicode } from "./context/Unicode.jsx";
+import ToolProvider from "./context/Tool.jsx";
+import OperationProvider from "./context/Operation.jsx";
 
 /* I just needed the Providers to be outside of the body
 to actually consume the context. */
 export default function App() {
     return (
-        <UnicodeData fallback={<i class={classes.info}>Loading unicode data...</i>}>
-            <Content/>
-        </UnicodeData>
+        <OperationProvider>
+            <ToolProvider>
+                <UnicodeProvider fallback={<i class={classes.info}>Loading unicode data...</i>}>
+                    <Content />
+                </UnicodeProvider>
+            </ToolProvider>
+        </OperationProvider>
     )
 }
 
 
 function Content() {
-    const unicodeData = useUnicodeData();
+    const unicodeData = useUnicode();
     const fontController = new FontController(unicodeData);
     const currentFont = fontController.fontData
     const setCurrentFont = fontController.setFontData
@@ -43,6 +49,8 @@ function Content() {
             setFontData={setCurrentFont}
             currentGlyphIndex={currentGlyphIndex}
             setCurrentGlyphIndex={setCurrentGlyphIndex}
+            setCurrentGlyph={setCurrentGlyph}
+            currentGlyph={currentGlyph}
         />
         <Editor
             fontData={currentFont}

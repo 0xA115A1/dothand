@@ -3,7 +3,7 @@ import { PixelPerfectCanvas, PixelPerfectTouch, usePannable } from "@shadryx/ppt
 import { Accessor, createEffect, createMemo, createSignal, onCleanup, Setter } from "solid-js";
 import { SetStoreFunction } from "solid-js/store";
 import { FontData, Glyph } from "../../logic/font/FontModel.js";
-import UnicodeData from "../../context/UnicodeData.jsx";
+import UnicodeData from "../../context/Unicode.jsx";
 import { getDrawArea } from "./drawArea.js";
 import { draw, DrawData } from "./draw.js";
 import EditorInfo from "./info.jsx";
@@ -12,6 +12,8 @@ import EditorToolbar from "./toolbar.jsx";
 import { EditorOperation, EditorTool } from "./types.js";
 import { appSettings } from "../settings/AppSettings.jsx";
 import Glyphbar from "./glyphbar.jsx";
+import { useTool } from "../../context/Tool.jsx";
+import { useOperation } from "../../context/Operation.jsx";
 
 export type EditorProps = {
     fontData: FontData,
@@ -27,8 +29,8 @@ type Tap = {
 }
 
 export default function Editor(props: EditorProps) {
-    const [operation, setOperation] = createSignal<EditorOperation>(EditorOperation.XOR);
-    const [tool, setTool] = createSignal<EditorTool>(EditorTool.DRAW);
+    const [operation, setOperation] = useOperation();
+    const [tool, setTool] = useTool();  
     const {currentGlyphIndex, setCurrentGlyphIndex} = props;
 
     const [canvas, setCanvas] = createSignal<HTMLCanvasElement>();

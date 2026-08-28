@@ -5,6 +5,7 @@ import Setting from "../_ui/molecules/Setting.jsx";
 import { parseGlyphOrIndex } from "../../common/utils/UTFparse.js";
 import { Corner, FontData, Glyph } from "../../logic/font/FontModel.js";
 import classes from "./settings.module.css";
+import { MoveDirection, moveDirectionMap} from "../../types/common.js";
 
 export type GlyphSettingsProps = {
     currentGlyph: Accessor<Glyph>,
@@ -15,18 +16,7 @@ export type GlyphSettingsProps = {
 // TODO: have a preview of the new coordinates
 // TODO: add buttons for resetting glyph
 
-type MoveDirection = "up" | "down" | "left" | "right" | "up-right" | "up-left" | "down-right" | "down-left" | "center";
-const moveDirectionMap: Record<MoveDirection, [number, number]> = {
-    "up": [0, -1],
-    "down": [0, 1],
-    "left": [-1, 0],
-    "right": [1, 0],
-    "up-right": [1, -1],
-    "up-left": [-1, -1],
-    "down-right": [1, 1],
-    "down-left": [-1, 1],
-    "center": [0, 0]
-};
+
 
 export default function GlyphSettings(props: GlyphSettingsProps) {
     const [temporaryWidth, setTemporaryWidth] = createSignal(props.currentGlyph().width);
@@ -75,6 +65,19 @@ export default function GlyphSettings(props: GlyphSettingsProps) {
         </div>
 
         <h2>Glyph dimensions</h2>
+        <div>
+            <span>Where to add/remove pixels:</span>
+            <Dropdown
+                theme="setting"
+                values={[
+                    ["Top-right", Corner.TOP_RIGHT],
+                    ["Top-left", Corner.TOP_LEFT],
+                    ["Bottom-right", Corner.BOTTOM_RIGHT],
+                    ["Bottom-left", Corner.BOTTOM_LEFT],
+                ]}
+                onChange={(corner: Corner) => setCorner(corner)}
+            />
+        </div>
         <div class={classes.flex}>
             <Setting
                 type="number"
@@ -93,19 +96,7 @@ export default function GlyphSettings(props: GlyphSettingsProps) {
                 onChange={setTemporaryHeight}
             />
         </div>
-        <div>
-            <span>Where to add/remove pixels:</span>
-            <Dropdown
-                theme="setting"
-                values={[
-                    ["Top-right", Corner.TOP_RIGHT],
-                    ["Top-left", Corner.TOP_LEFT],
-                    ["Bottom-right", Corner.BOTTOM_RIGHT],
-                    ["Bottom-left", Corner.BOTTOM_LEFT],
-                ]}
-                onChange={(corner: Corner) => setCorner(corner)}
-            />
-        </div>
+
         <div class={classes.flex}>
             <Button
                 theme="settings"
@@ -117,7 +108,19 @@ export default function GlyphSettings(props: GlyphSettingsProps) {
             >
                 Resize glyph
             </Button>
+
+            <Button
+                theme="settings"
+                onClick={() => {
+                    const glyph = props.currentGlyph().resizeToFit(corner(), true, false);
+
+                    props.setCurrentGlyph(glyph);
+                }}
+            >
+                Resize to fit
+            </Button>
         </div>
+
 
         <h2>Glyph metrics</h2>
         <div class={classes.flex}>
@@ -129,12 +132,12 @@ export default function GlyphSettings(props: GlyphSettingsProps) {
                 placeholder={props.currentFont.baseline}
                 description="The baseline of the current glyph"
                 onChange={(baseline) => {
-                    const glyph=props.currentGlyph().setBaseline(baseline)
+                    const glyph = props.currentGlyph().setBaseline(baseline)
 
                     props.setCurrentGlyph(glyph);
                 }}
-                min = {0}
-                max = {props.currentGlyph().height}
+                min={0}
+                max={props.currentGlyph().height}
             />
             <Setting
                 type="number"
@@ -153,16 +156,6 @@ export default function GlyphSettings(props: GlyphSettingsProps) {
 
         <h2>Operations</h2>
         <div class={classes.flex}>
-            <Button
-                theme="settings"
-                onClick={() => {
-                    const glyph = props.currentGlyph().resizeToFit(corner(), true, false);
-
-                    props.setCurrentGlyph(glyph);
-                }}
-            >
-                Resize to fit
-            </Button>
             <Button
                 theme="settings"
                 onClick={() => {
@@ -219,7 +212,7 @@ export default function GlyphSettings(props: GlyphSettingsProps) {
                     return (<Button
                         theme="mover"
                         onClick={() => {
-                            const glyph = props.currentGlyph().move(dir[0], dir[1]);
+                            const glyph = props.currentGlyph().move(...dir);
 
                             props.setCurrentGlyph(glyph);
                         }}

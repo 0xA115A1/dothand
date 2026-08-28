@@ -32,8 +32,17 @@ Notable additions include:
 ### Planned new features:
 - [ ] Add TTF and WOFF export 
 - [ ] More tools: brushes / rectangles for drawing / selection.
-- [ ] Prettifying the UI generally,
-- [ ] Add more inputs for missing font metadata. 
+- [ ] Add more inputs for the rest of font metadata. 
 - [ ] Better glyph navigation, e.g. by Unicode block.
 - [ ] Autosave
-- [ ] More hotkeys, and probably common hot-key schemes support.
+- [x] More hotkeys, 
+- [ ] Common hot-key schemes support.
+- [ ] Prettifying the UI generally,
+    - [ ] Tooltips
+    - [ ] Custom layouts
+    - [ ] Color themes
+    - [ ] Icons
+### Refactor:
+- [ ] Centralize data/types
+- [ ] Cut up listeners, when it's will make sense to
+- [ ] Rewrite/Wrap Glyph à la Font Controller, it's a bit annoying to replace the glyph with a mutated one using a setter. Perhaps as a wrapper over a signal or in FontController itself (not a good style). There is surely a reason it's treated as immutable, so rewriting it's class to convenient mutability is probably not the brightest idea.
